@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kali Terminal Mastery: 30-Day Challenge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #1a1a1a; /* Dark background for Kali feel */
+            color: #00ff00; /* Green text */
+        }
+        h1, h2, h3 {
+            color: #00ffff; /* Cyan for headings */
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .challenge-day {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            background-color: #222;
+            display: flex;
+            flex-direction: column; /* Stack checkbox/label and links */
+            align-items: flex-start;
+        }
+        .challenge-day .task-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px; /* Space between label and links */
+        }
+        .challenge-day input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            accent-color: #00ffff; /* Cyan checkbox */
+        }
+        .challenge-day.completed {
+            background-color: #444;
+            border-color: #00ffff;
+            opacity: 0.8;
+        }
+        .challenge-day.completed label {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+        .challenge-day .resources {
+            font-size: 0.9em;
+            color: #aaa;
+            padding-left: 30px; /* Align with label text */
+        }
+        .challenge-day .resources a {
+            display: block; /* Each link on new line */
+            margin-bottom: 3px;
+        }
+        a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kali Linux Terminal Mastery: 30-Day Challenge</h1>
+        <p>Welcome to your journey to master the Kali Linux terminal! Check off each day's task as you complete it. Your progress will be saved automatically in your browser.</p>
+
+        <div id="challengeList">
+            </div>
+
+        <footer>
+            &copy; 2025 Kali Linux Terminal Challenge. Built for learning.
+        </footer>
+    </div>
+
+    <script>
+        const challengeTasks = [
+            // Phase 1: Foundations
+            { task: "Day 1: Terminal Basics (`pwd`, `ls`, `cd`, `history`, .bashrc aliases)",
+              links: [
+                { text: "Linuxize: pwd", url: "https://linuxize.com/post/pwd-command-in-linux/" },
+                { text: "Linuxize: ls", url: "https://linuxize.com/post/ls-command-in-linux/" },
+                { text: "Linuxize: cd", url: "https://linuxize.com/post/cd-command-in-linux/" },
+                { text: "Linuxize: history", url: "https://linuxize.com/post/history-command-in-linux/" },
+                { text: "Linuxize: Bash Aliases", url: "https://linuxize.com/post/how-to-create-bash-aliases/" }
+              ]},
+            { task: "Day 2: File Creation & Manipulation (`touch`, `mkdir`, `cp`, `mv`, `rm`, `rmdir`)",
+              links: [
+                { text: "Linuxize: touch", url: "https://linuxize.com/post/touch-command-in-linux/" },
+                { text: "Linuxize: mkdir", url: "https://linuxize.com/post/mkdir-command-in-linux/" },
+                { text: "Linuxize: cp", url: "https://linuxize.com/post/cp-command-in-linux/" },
+                { text: "Linuxize: mv", url: "https://linuxize.com/post/mv-command-in-linux/" },
+                { text: "Linuxize: rm", url: "https://linuxize.com/post/rm-command-in-linux/" },
+                { text: "Linuxize: rmdir", url: "https://linuxize.com/post/rmdir-command-in-linux/" }
+              ]},
+            { task: "Day 3: Viewing File Content (`cat`, `less`, `head`, `tail`)",
+              links: [
+                { text: "Linuxize: cat", url: "https://linuxize.com/post/cat-command-in-linux/" },
+                { text: "Linuxize: less", url: "https://linuxize.com/post/less-command-in-linux/" },
+                { text: "Linuxize: head", url: "https://linuxize.com/post/head-command-in-linux/" },
+                { text: "Linuxize: tail", url: "https://linuxize.com/post/tail-command-in-linux/" }
+              ]},
+            { task: "Day 4: Permissions & Ownership (`chmod`, `chown`, `chgrp`)",
+              links: [
+                { text: "Linuxize: chmod", url: "https://linuxize.com/post/chmod-command-in-linux/" },
+                { text: "Linuxize: chown", url: "https://linuxize.com/post/chown-command-in-linux/" }
+              ]},
+            { task: "Day 5: User Switching & Superuser Privileges (`su`, `sudo`, /etc/sudoers)",
+              links: [
+                { text: "Linuxize: su", url: "https://linuxize.com/post/su-command-in-linux/" },
+                { text: "Linuxize: sudo", url: "https://linuxize.com/post/sudo-command-in-linux/" },
+                { text: "DigitalOcean: Sudoers File", url: "https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-debian" }
+              ]},
+            { task: "Day 6: Finding Files (`find`, `locate`)",
+              links: [
+                { text: "Linuxize: find", url: "https://linuxize.com/post/find-command-in-linux/" },
+                { text: "Linuxize: locate", url: "https://linuxize.com/post/locate-command-in-linux/" }
+              ]},
+            { task: "Day 7: Getting Help (`man`, `whatis`, `apropos`, `--help`, `tldr`)",
+              links: [
+                { text: "Linuxize: man", url: "https://linuxize.com/post/man-command-in-linux/" },
+                { text: "Linuxize: whatis", url: "https://linuxize.com/post/whatis-command-in-linux/" },
+                { text: "Linuxize: apropos", url: "https://linuxize.com/post/apropos-command-in-linux/" },
+                { text: "TLDR Pages (if installed)", url: "https://tldr.sh/" }
+              ]},
+            // Phase 2: System Interaction
+            { task: "Day 8: Process Management I (`ps`, `top`, `htop`)",
+              links: [
+                { text: "Linuxize: ps", url: "https://linuxize.com/post/ps-command-in-linux/" },
+                { text: "Linuxize: top", url: "https://linuxize.com/post/top-command-in-linux/" },
+                { text: "Linuxize: htop", url: "https://linuxize.com/post/htop-command-in-linux/" }
+              ]},
+            { task: "Day 9: Process Management II (`kill`, `pkill`, job control)",
+              links: [
+                { text: "Linuxize: kill", url: "https://linuxize.com/post/kill-command-in-linux/" },
+                { text: "Linuxize: pkill", url: "https://linuxize.com/post/pkill-command-in-linux/" },
+                { text: "GeeksforGeeks: jobs, fg, bg", url: "https://www.geeksforgeeks.org/jobs-command-in-linux-with-examples/" }
+              ]},
+            { task: "Day 10: System Information (`uname`, `df`, `du`, `free`)",
+              links: [
+                { text: "Linuxize: uname", url: "https://linuxize.com/post/uname-command-in-linux/" },
+                { text: "Linuxize: df", url: "https://linuxize.com/post/df-command-in-linux/" },
+                { text: "Linuxize: du", url: "https://linuxize.com/post/du-command-in-linux/" },
+                { text: "Linuxize: free", url: "https://linuxize.com/post/free-command-in-linux/" }
+              ]},
+            { task: "Day 11: Package Management (`apt` commands)",
+              links: [
+                { text: "Linuxize: apt", url: "https://linuxize.com/post/apt-command-in-linux/" },
+                { text: "Debian APT User Manual", url: "https://www.debian.org/doc/manuals/debian-reference/ch02.en.html" }
+              ]},
+            { task: "Day 12: Service Management (`systemctl` commands)",
+              links: [
+                { text: "Linuxize: systemctl", url: "https://linuxize.com/post/systemctl-command-in-linux/" },
+                { text: "DigitalOcean: Systemd Essentials", url: "https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal" }
+              ]},
+            { task: "Day 13: Scheduled Tasks (`cron` jobs)",
+              links: [
+                { text: "Linuxize: Cron Job", url: "https://linuxize.com/post/how-to-create-cron-job-on-linux/" },
+                { text: "Crontab Guru (for syntax)", url: "https://crontab.guru/" }
+              ]},
+            { task: "Day 14: Input/Output Redirection & Pipes (`>`, `>>`, `2>`, `|`)",
+              links: [
+                { text: "Linuxize: I/O Redirection", url: "https://linuxize.com/post/bash-io-redirection/" },
+                { text: "Linuxize: Pipes", url: "https://linuxize.com/post/bash-pipe/" }
+              ]},
+            // Phase 3: Network & Text Processing
+            { task: "Day 15: Network Basics I (`ip a`, `ip r`, `ping`)",
+              links: [
+                { text: "Linuxize: ip", url: "https://linuxize.com/post/ip-command-in-linux/" },
+                { text: "Linuxize: ping", url: "https://linuxize.com/post/ping-command-in-linux/" }
+              ]},
+            { task: "Day 16: Network Basics II (`ss`, `dig`, `nslookup`)",
+              links: [
+                { text: "Linuxize: ss", url: "https://linuxize.com/post/ss-command-in-linux/" },
+                { text: "Linuxize: dig", url: "https://linuxize.com/post/dig-command-in-linux/" },
+                { text: "Linuxize: nslookup", url: "https://linuxize.com/post/nslookup-command-in-linux/" }
+              ]},
+            { task: "Day 17: Grep Mastery (basic to advanced regex)",
+              links: [
+                { text: "Linuxize: grep", url: "https://linuxize.com/post/grep-command-in-linux/" },
+                { text: "RegexOne (Interactive RegEx)", url: "https://regexone.com/" }
+              ]},
+            { task: "Day 18: Sed for Stream Editing (substitutions, deletions)",
+              links: [
+                { text: "Linuxize: sed", url: "https://linuxize.com/post/sed-command-in-linux/" },
+                { text: "Grymoire: Sed Tutorial", url: "https://www.grymoire.com/Unix/Sed.html" }
+              ]},
+            { task: "Day 19: Awk for Columnar Data (parsing, printing columns)",
+              links: [
+                { text: "Linuxize: awk", url: "https://linuxize.com/post/awk-command-in-linux/" },
+                { text: "Grymoire: Awk Tutorial", url: "https://www.grymoire.com/Unix/Awk.html" }
+              ]},
+            { task: "Day 20: Cut, Sort, Uniq, Wc (combining text utilities)",
+              links: [
+                { text: "Linuxize: cut", url: "https://linuxize.com/post/cut-command-in-linux/" },
+                { text: "Linuxize: sort", url: "https://linuxize.com/post/sort-command-in-linux/" },
+                { text: "Linuxize: uniq", url: "https://linuxize.com/post/uniq-command-in-linux/" },
+                { text: "Linuxize: wc", url: "https://linuxize.com/post/wc-command-in-linux/" }
+              ]},
+            { task: "Day 21: Regular Expressions Deep Dive (advanced patterns)",
+              links: [
+                { text: "Regex Cheat Sheet (Rexegg)", url: "https://www.rexegg.com/regex-quickstart.html" },
+                { text: "Regexr (Online Regex Tester)", url: "https://regexr.com/" }
+              ]},
+            // Phase 4: Scripting & Kali Tools
+            { task: "Day 22: Basic Bash Scripting (Hello World, variables, executable)",
+              links: [
+                { text: "Ryan's Tutorials: Bash Scripting", url: "https://ryanstutorials.net/bash-scripting-tutorial/" }
+              ]},
+            { task: "Day 23: Scripting with Conditionals (`if/else`, `case`)",
+              links: [
+                { text: "Bash Scripting: If/Else", url: "https://ryanstutorials.net/bash-scripting-tutorial/bash-if-statements.php" },
+                { text: "Bash Scripting: Case Statement", url: "https://ryanstutorials.net/bash-scripting-tutorial/bash-case-statement.php" }
+              ]},
+            { task: "Day 24: Scripting with Loops & Functions (`for`, `while`, custom functions)",
+              links: [
+                { text: "Bash Scripting: Loops", url: "https://ryanstutorials.net/bash-scripting-tutorial/bash-loops.php" },
+                { text: "Bash Scripting: Functions", url: "https://ryanstutorials.net/bash-scripting-tutorial/bash-functions.php" }
+              ]},
+            { task: "Day 25: Nmap Introduction (basic scans, service/OS detection)",
+              links: [
+                { text: "Nmap Official Docs", url: "https://nmap.org/book/man.html" },
+                { text: "Nmap Cheat Sheet", url: "https://hackertarget.com/nmap-cheatsheet-a-quick-reference-guide/" }
+              ]},
+            { task: "Day 26: Web Reconnaissance Tools (Gobuster/Dirb)",
+              links: [
+                { text: "Gobuster GitHub", url: "https://github.com/OJ/gobuster" },
+                { text: "Dirb - Kali Docs", url: "https://www.kali.org/docs/tools/dirb/" }
+              ]},
+            { task: "Day 27: Simple Network Packet Analysis (`tshark`)",
+              links: [
+                { text: "TShark Man Page", url: "https://www.wireshark.org/docs/man-pages/tshark.html" },
+                { text: "TShark Examples (Linuxize)", url: "https://linuxize.com/post/tshark-command-examples/" }
+              ]},
+            { task: "Day 28: Introduction to Metasploit (msfconsole, search, aux module)",
+              links: [
+                { text: "Metasploit Docs", url: "https://docs.metasploit.com/" },
+                { text: "Offensive Security: Metasploit Unleashed", url: "https://www.offensive-security.com/metasploit-unleashed/" }
+              ]},
+            { task: "Day 29: File Transfer & Remote Access (`scp`, `ssh`, SSH keys)",
+              links: [
+                { text: "Linuxize: scp", url: "https://linuxize.com/post/scp-command-in-linux/" },
+                { text: "Linuxize: ssh", url: "https://linuxize.com/post/ssh-command-in-linux/" },
+                { text: "DigitalOcean: SSH Keys", url: "https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-20-04" }
+              ]},
+            { task: "Day 30: Showcase Project / Automation (build a custom script combining skills)",
+              links: [
+                { text: "Bash Scripting Best Practices", url: "https://linuxhandbook.com/bash-scripting-best-practices/" },
+                { text: "Python for Pentesters (Book)", url: "https://www.amazon.ca/Black-Hat-Python-Programming-Pentesters/dp/1593275896" }
+              ]}
+        ];
+
+        const challengeListDiv = document.getElementById('challengeList');
+        const STORAGE_KEY = 'kaliChallengeProgressV2'; // Changed key for a fresh start with new structure
+        let progress = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+        function renderChallenge() {
+            challengeListDiv.innerHTML = ''; // Clear existing content
+            challengeTasks.forEach((dayData, index) => {
+                const dayId = `day-${index + 1}`;
+                const isCompleted = progress[dayId] || false;
+
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('challenge-day');
+                if (isCompleted) {
+                    dayDiv.classList.add('completed');
+                }
+
+                const taskLabelDiv = document.createElement('div');
+                taskLabelDiv.classList.add('task-label');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = dayId;
+                checkbox.checked = isCompleted;
+                checkbox.addEventListener('change', (event) => {
+                    progress[dayId] = event.target.checked;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+                    renderChallenge(); // Re-render to apply 'completed' class
+                });
+
+                const label = document.createElement('label');
+                label.htmlFor = dayId;
+                label.textContent = dayData.task;
+
+                taskLabelDiv.appendChild(checkbox);
+                taskLabelDiv.appendChild(label);
+                dayDiv.appendChild(taskLabelDiv);
+
+                if (dayData.links && dayData.links.length > 0) {
+                    const resourcesDiv = document.createElement('div');
+                    resourcesDiv.classList.add('resources');
+                    resourcesDiv.innerHTML = '<strong>Resources:</strong>';
+                    dayData.links.forEach(link => {
+                        const linkElement = document.createElement('a');
+                        linkElement.href = link.url;
+                        linkElement.textContent = link.text;
+                        linkElement.target = "_blank"; // Open in new tab
+                        resourcesDiv.appendChild(linkElement);
+                    });
+                    dayDiv.appendChild(resourcesDiv);
+                }
+
+                challengeListDiv.appendChild(dayDiv);
+            });
+        }
+
+        // Initial render when the page loads
+        document.addEventListener('DOMContentLoaded', renderChallenge);
+    </script>
+</body>
+</html>
